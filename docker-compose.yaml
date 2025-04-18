@@ -1,3 +1,4 @@
+name: dockerized-todo-app
 services:
   client-react-vite:
     image: client-react-vite

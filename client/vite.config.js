@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const VITE_PORT = process.env.VITE_PORT || 3000;
-console.log('fdsfsdf', process.env.API_URL_DJANGO);
+
 const alias = {
   '@': path.resolve(__dirname, 'src'),
   '@components': path.resolve(__dirname, 'src/components'),
@@ -28,5 +28,8 @@ export default defineConfig({
   },
   resolve: {
     alias,
+  },
+  define: {
+    VITE_API_URL_DJANGO: JSON.stringify(env.VITE_API_URL_DJANGO),
   },
 });

@@ -8,6 +8,12 @@ RUN npm ci
 
 COPY . .
 
+ARG API_PREFIX
+ARG API_URL_DJANGO
+
+ENV VITE_API_URL_DJANGO=${API_URL_DJANGO}${API_PREFIX}
+
+
 RUN npm run build
 
 FROM nginx:stable-alpine

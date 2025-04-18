@@ -28,7 +28,7 @@ export default function TaskList({ className = '' }) {
   }, []);
 
   const filteredTasks = useMemo(() => {
-    if (!tasks) return [];
+    if (!Array.isArray(tasks)) return [];
     if (filter === 'completed') {
       return tasks.filter((task) => task.is_completed);
     }

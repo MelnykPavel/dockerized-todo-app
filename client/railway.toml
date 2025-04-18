@@ -1,3 +1,3 @@
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "../docker/client.prod.Dockerfile"
+dockerfilePath = "Dockerfile.client.prod"

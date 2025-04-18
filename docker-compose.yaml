@@ -4,7 +4,7 @@ services:
     init: true
     build:
       context: ./client
-      dockerfile: ../docker/client.dev.Dockerfile
+      dockerfile: Dockerfile.client.dev
     environment:
       VITE_API_URL_DJANGO: ${API_URL_DJANGO}
       VITE_PORT: ${CLIENT_PORT}
@@ -31,7 +31,7 @@ services:
     image: api-django
     build:
       context: ./django
-      dockerfile: ../docker/django.dev.Dockerfile
+      dockerfile: Dockerfile.django.dev
     init: true
     env_file: .env
     ports:

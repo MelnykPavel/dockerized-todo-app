@@ -14,11 +14,12 @@ FROM nginx:stable-alpine
 
 RUN apk --no-cache add gettext
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY --link nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=builder /client/dist /usr/share/nginx/html
+COPY --link --from=builder /client/dist /usr/share/nginx/html
+
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "envsubst '${DJANGO_PORT}' < /etc/nginx/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+
 

@@ -1,0 +1,90 @@
+services:
+  client-react-vite:
+    image: client-react-vite
+    init: true
+    build:
+      context: ./client
+      dockerfile: ../docker/client.dev.Dockerfile
+    environment:
+      VITE_API_URL_DJANGO: ${API_URL_DJANGO}
+      VITE_PORT: ${CLIENT_PORT}
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+    depends_on:
+      api-django:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./client
+        target: /client
+        consistency: cached
+      - type: volume
+        source: client_node_modules
+        target: /client/node_modules
+      - type: bind
+        source: ./client/vite.config.js
+        target: /client/vite.config.js
+    networks:
+      - frontend
+
+  api-django:
+    image: api-django
+    build:
+      context: ./django
+      dockerfile: ../docker/django.dev.Dockerfile
+    init: true
+    env_file: .env
+    ports:
+      - ${DJANGO_PORT}:${DJANGO_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -qO- http://127.0.0.1:${DJANGO_PORT}/health/ | grep -q OK",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - type: bind
+        source: ./django
+        target: /django
+        consistency: cached
+      - type: volume
+        source: django_venv
+        target: /venv
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    ports:
+      - ${SQL_PORT}:${SQL_PORT}
+    env_file: ".env"
+    environment:
+      POSTGRES_DB: ${SQL_DATABASE}
+      POSTGRES_USER: ${SQL_USER}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SQL_USER} -d ${SQL_DATABASE}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
+
+volumes:
+  pgdata:
+  django_venv:
+  client_node_modules:
+
+networks:
+  frontend:
+  backend:

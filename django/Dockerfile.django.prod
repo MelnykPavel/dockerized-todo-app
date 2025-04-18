@@ -26,8 +26,5 @@ RUN pip show gunicorn >/dev/null 2>&1 || pip install gunicorn
 
 COPY . .
 
-
-EXPOSE ${DJANGO_PORT}
-
 CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:${DJANGO_PORT}"]
 

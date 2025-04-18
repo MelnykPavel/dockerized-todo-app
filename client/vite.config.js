@@ -29,4 +29,7 @@ export default defineConfig({
   resolve: {
     alias,
   },
+  define: {
+    VITE_API_URL_DJANGO: JSON.stringify(process.env.VITE_API_URL_DJANGO),
+  },
 });

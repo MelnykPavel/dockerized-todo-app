@@ -56,7 +56,6 @@ export default function useTasks(minDelay = 1000) {
 
       return response.data;
     } catch (err) {
-      console.error(error, err);
       setError(err);
       toast.error(error);
       throw err;

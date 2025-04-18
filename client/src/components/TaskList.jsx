@@ -28,6 +28,7 @@ export default function TaskList({ className = '' }) {
   }, []);
 
   const filteredTasks = useMemo(() => {
+    if (!Array.isArray(tasks)) return [];
     if (filter === 'completed') {
       return tasks.filter((task) => task.is_completed);
     }
@@ -52,9 +53,9 @@ export default function TaskList({ className = '' }) {
           <span>Add Task</span>
         </Button>
       </div>
-      {filteredTasks.length ? (
+      {filteredTasks?.length ? (
         <div className="space-y-4 overflow-y-scroll pb-4">
-          {filteredTasks.map((task) => (
+          {filteredTasks?.map((task) => (
             <TaskItem key={task.id} task={task} />
           ))}
         </div>

@@ -1,4 +1,3 @@
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "../docker/django.prod.Dockerfile"
-# test
+dockerfilePath = "/django/Dockerfile.django.prod"

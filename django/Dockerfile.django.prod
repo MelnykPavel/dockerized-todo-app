@@ -12,13 +12,20 @@ ENV DJANGO_PORT=${DJANGO_PORT:-8000}
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+RUN ["sh", "-c", "\
+  echo 'DJANGO_PORT is initialized as ${DJANGO_PORT}' \
+"]
+
 COPY requirements.txt .
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 RUN pip show gunicorn >/dev/null 2>&1 || pip install gunicorn
 
+
+
 COPY . .
+
 
 EXPOSE ${DJANGO_PORT}
 

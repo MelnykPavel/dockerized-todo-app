@@ -30,6 +30,6 @@ export default defineConfig({
     alias,
   },
   define: {
-    VITE_API_URL_DJANGO: JSON.stringify(env.VITE_API_URL_DJANGO),
+    VITE_API_URL_DJANGO: JSON.stringify(process.env.VITE_API_URL_DJANGO),
   },
 });
